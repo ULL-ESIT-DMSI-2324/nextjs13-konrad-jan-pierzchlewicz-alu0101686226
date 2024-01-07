@@ -1,36 +1,62 @@
-# Next.js 13 Crash Course Tutorial - learn 4
+# Next.js 13 Crash Course Tutorial #5 - learn 5
 
-### 1. Layouts in Next.js
+### 1. CSS and Sass
 
-A layout defines structure across multiple pages of your application.This contains headers, footers, and sidebars.
+Next.js allows you to import CSS and Sass stylesheets directly into your JavaScript components.
 
-### 2. Links and Navigation
+1.  Use of CSS: You can create a `.css` file and then import it into your component.
+2.  Use of Sass: Similar to CSS, but with `.scss` or `.sass` files.
 
-Next.js provides a `<Link>` component to manage navigation within your application. This allows for a smooth transition between pages without reloading the entire site.
+### 2. CSS Modules
 
-### How to's:
+Next.js supports CSS Modules by default, allowing you to have local styles that only affect your component.
 
-1. **Create a Layout Component**: Create a `Layout.jsx` file in your components directory.
+1.  CSS Module File: Name it as `[name].module.css`.
+2.  Import Styles: Import your CSS Module file into your component and use it as an object.
 
-    Go to components/Layout.js
+  ```jsx
+  // styles/Button.module.css
+  .button {
+    background-color: blue;
+    colour: white;
+  }
 
-2. **Layout in Your Pages**: .
+  // Component that uses Button.module.css
+  import styles from '../styles/Button.module.css';
 
-    Use Layout in Pages (Place objects into the site)
-    
-   ```
+  function Button() {
+    return <button className={styles.button}>Click me</button>;
+  }
+  ```
 
-### Link Management
+### Incorporate Google Fonts
 
-1. **Import `<Link>` Component** - Use `<Link>` for navigation between pages.
+1. Select Font in Google Fonts: Visit [Google Fonts](https://fonts.google.com/)t.
+2. Incorporate the Font in your Application:
+        a) Link the source in your HTML file or in the Next.js Head component.
+        b) Use `@import` in your CSS style code.
 
    ```jsx
-   import Link from 'next/link';
+   // pages/_document.js or your Head component from the page below
+   <Head>
+     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+   </Head>
    ```
 
-2. **Navigation with `<Link>`** - Place your hyperlinks with `<Link>` in the words to enable fast, reload-free navigation.
-
-   ```jsx
-   // Example in a component
-   <Link href="/about"><a>About Us</a></Link>
+   ```css
+   /* Method with @import in CSS */
+   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+   body {
+     font-family: 'Roboto', sans-serif;
+   }
    ```
+
+### Use the `<Image>` Tag
+
+Next.js provides optimizers for images.
+
+- **Importing images**:
+
+  ```jsx
+  import Image from 'next/image';
+  ```
