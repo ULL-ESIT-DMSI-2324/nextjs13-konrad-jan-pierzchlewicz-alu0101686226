@@ -1,6 +1,5 @@
-import { RESPONSE_LIMIT_DEFAULT } from 'next/dist/server/api-utils';
 import Link from 'next/link';
-import React from 'react'
+
 async function getTickets() {
     const response = await fetch('http://localhost:4000/tickets', {
         next: {
@@ -19,7 +18,7 @@ export default async function TicketList() {
             <Link href={`/tickets/${ticket.id}`}>
                     <h3>{ticket.title}</h3>
                     <p>{ticket.body.slice(0, 200)}...</p>
-                    <div className= {'pill ${ticket.priority} '}>
+                    <div className= {`pill ${ticket.priority} `}>
                         {ticket.priority} priority
                     </div>
                 </Link>
