@@ -1,82 +1,28 @@
-## Next.js 13 Crash Course Tutorial - learn-8
+# Next.js 13 Crash Course Tutorial - learn-9
 
-### Static Rendering
+### 1. Create a 404 File
 
-Static Rendering is a method where HTML is generated at compile time and reused on every request. Next.js supports this approach through `getStaticProps` and `getStaticPaths`. Some benefits of static rendering are:
+Next.js automatically recognizes a special file called `404.js` in your `pages` directory as your custom 404 error page.
 
-- Fewer Server Requests: Reduces load on the server as pages are served as static files.
-- Performance: Pages load quickly because the HTML is pre-generated.
-- Reduced Hosting Costs: Static pages can be hosted on a CDN.
-- Better Developer Experience: Static pages can be previewed locally.
+- **File Structure**:
 
-
-### Creating a Static Page
-
-1. Define `getStaticProps`
-
-   ```jsx
-   export async function getStaticProps() {
-      // Fetch data from external API
-     const data = await fetch(...);
-
-     return {
-       props: { data }, // will be passed to the page component as props
-     }
-   }
-
-   function MyStaticPage({ data }) {
-     // Render data...
-     return <div>{/* Page content */}</div>;
-   }
-
-   export default MyStaticPage;
-   ```
-
-### Using `getStaticPaths` for Dynamic Pages
-
-For pages with dynamic paths (like `/[id].js`), you need to define `getStaticPaths` to tell Next.js which paths to pre-render. `getStaticPaths` returns an object with two keys:
-
-- Define `getStaticPaths`:
-
-  ```jsx
-  export async function getStaticPaths() {
-    // Call an external API endpoint to get posts
-    const paths = [
-      { params: { id: '1' } },
-      { params: { id: '2' } }
-    ];
-
-    return { paths, fallback: 'blocking' };
-  }
-
-  export async function getStaticProps({ params }) {
-    // Fetch necessary data for the blog post using params.id
-  }
+  ```
+  pages/
+    404.js
   ```
 
-## `notFound` in `getStaticProps`
+### 2. Design Your 404 Page
 
-When `getStaticProps` does not find the data needed to render a page (for example, a blog ID that does not exist in the database), you can return `notFound: true` to display a 404 error page.
-
-- **Example**:
+You can design your 404 page however you like. Here's an example of a simple 404 page:
 
   ```jsx
-
-  export async function getStaticProps({ params }) {
-
-    const data = await fetchData(params.id);
-    // If the blog post does not exist, return `notFound: true`
-    if (!data) {
-      return { notFound: true };
-    }
-    return { props: { data } };
+  export default function Custom404() {
+    return (
+      <div style={{ textAlign: 'center', marginTop: '50px' }}>
+        <h1>404 - Page Not Found</h1>
+        <p>The page you are looking for does not exist.</p>
+        <a href="/">Back to the top</a>
+      </div>
+    );
   }
-
-  function MyStaticPage({ data }) {
-    // Render data...
-    return <div>{/* Page content */}</div>;
-  }
-
-  export default MyStaticPage;
-
   ```
