@@ -1,37 +1,62 @@
-## Next.js Master Class
-This repo contains all the course files for the Next.js Master Class on Net Ninja Pro. There is a branch for every lesson. Select the lesson you need from the branch dropdown.
+# Next.js 13 Crash Course Tutorial #5 - learn 5
 
-Visit [Net Ninja Pro](https://netninja.dev) to view this course and many more.
+### 1. CSS and Sass
 
-## Getting Started with the Project
+Next.js allows you to import CSS and Sass stylesheets directly into your JavaScript components.
 
-First, run the development server:
+1.  Use of CSS: You can create a `.css` file and then import it into your component.
+2.  Use of Sass: Similar to CSS, but with `.scss` or `.sass` files.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+### 2. CSS Modules
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Next.js supports CSS Modules by default, allowing you to have local styles that only affect your component.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1.  CSS Module File: Name it as `[name].module.css`.
+2.  Import Styles: Import your CSS Module file into your component and use it as an object.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+  ```jsx
+  // styles/Button.module.css
+  .button {
+    background-color: blue;
+    colour: white;
+  }
 
-## Learn More
+  // Component that uses Button.module.css
+  import styles from '../styles/Button.module.css';
 
-To learn more about Next.js, take a look at the following resources:
+  function Button() {
+    return <button className={styles.button}>Click me</button>;
+  }
+  ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Incorporate Google Fonts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. Select Font in Google Fonts: Visit [Google Fonts](https://fonts.google.com/)t.
+2. Incorporate the Font in your Application:
+        a) Link the source in your HTML file or in the Next.js Head component.
+        b) Use `@import` in your CSS style code.
 
-## Deploy on Vercel
+   ```jsx
+   // pages/_document.js or your Head component from the page below
+   <Head>
+     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+   </Head>
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```css
+   /* Method with @import in CSS */
+   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+   body {
+     font-family: 'Roboto', sans-serif;
+   }
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Use the `<Image>` Tag
+
+Next.js provides optimizers for images.
+
+- **Importing images**:
+
+  ```jsx
+  import Image from 'next/image';
+  ```
