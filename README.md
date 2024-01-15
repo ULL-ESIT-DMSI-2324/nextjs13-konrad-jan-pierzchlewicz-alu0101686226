@@ -1,30 +1,82 @@
-# Next.js 13 Crash Course Tutorial - learn-7
+## Next.js 13 Crash Course Tutorial - learn-8
 
-### 1. Dynamic Segments?
+### Static Rendering
 
-Dynamic segments are parts of the URL that can change and are used to pass data to a page. In Next.js, these are handled by specially named files and folders in the `pages` directory.
+Static Rendering is a method where HTML is generated at compile time and reused on every request. Next.js supports this approach through `getStaticProps` and `getStaticPaths`. Some benefits of static rendering are:
 
-### 2. How to create Dynamic Routes
+- Fewer Server Requests: Reduces load on the server as pages are served as static files.
+- Performance: Pages load quickly because the HTML is pre-generated.
+- Reduced Hosting Costs: Static pages can be hosted on a CDN.
+- Better Developer Experience: Static pages can be previewed locally.
 
-To create a dynamic path, you must use square brackets (`[]`) around the segment name in the file or folder name. For example, `[id].js`.
 
+### Creating a Static Page
 
-### Creating a Page with a Dynamic Segment
+1. Define `getStaticProps`
 
-1. Create a File for the Dynamic Path: For example a file with square brackets as here `[].js`.
-2. Access to Dynamic Parameters:
+   ```jsx
+   export async function getStaticProps() {
+      // Fetch data from external API
+     const data = await fetch(...);
 
-   - You need to use the `useRouter` hook to access the data.
-
-     ```jsx
-     import { useRouter } from 'next/router';
-
-     function Post() {
-       const router = useRouter();
-       const { id } = router.query; // Access the 'id' parameter
-
-       return <div>ID of the thing that you are using: {id}</div>;
+     return {
+       props: { data }, // will be passed to the page component as props
      }
+   }
 
-     export defaultPost;
-     ```
+   function MyStaticPage({ data }) {
+     // Render data...
+     return <div>{/* Page content */}</div>;
+   }
+
+   export default MyStaticPage;
+   ```
+
+### Using `getStaticPaths` for Dynamic Pages
+
+For pages with dynamic paths (like `/[id].js`), you need to define `getStaticPaths` to tell Next.js which paths to pre-render. `getStaticPaths` returns an object with two keys:
+
+- Define `getStaticPaths`:
+
+  ```jsx
+  export async function getStaticPaths() {
+    // Call an external API endpoint to get posts
+    const paths = [
+      { params: { id: '1' } },
+      { params: { id: '2' } }
+    ];
+
+    return { paths, fallback: 'blocking' };
+  }
+
+  export async function getStaticProps({ params }) {
+    // Fetch necessary data for the blog post using params.id
+  }
+  ```
+
+## `notFound` in `getStaticProps`
+
+When `getStaticProps` does not find the data needed to render a page (for example, a blog ID that does not exist in the database), you can return `notFound: true` to display a 404 error page.
+
+- **Example**:
+
+  ```jsx
+
+  export async function getStaticProps({ params }) {
+
+    const data = await fetchData(params.id);
+    // If the blog post does not exist, return `notFound: true`
+    if (!data) {
+      return { notFound: true };
+    }
+    return { props: { data } };
+  }
+
+  function MyStaticPage({ data }) {
+    // Render data...
+    return <div>{/* Page content */}</div>;
+  }
+
+  export default MyStaticPage;
+
+  ```
